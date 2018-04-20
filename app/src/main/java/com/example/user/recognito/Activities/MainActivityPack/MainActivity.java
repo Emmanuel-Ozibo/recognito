@@ -244,7 +244,12 @@ public class MainActivity extends AppCompatActivity implements
         // TODO: 3/7/2018 handle about clicked here
     }
 
-            @Override
+    @Override
+    public void onSettingsClicked() {
+        ToastMessageUtil.getToastMessage(this, "Settings clicked");
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode){

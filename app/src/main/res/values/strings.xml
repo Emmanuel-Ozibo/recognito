@@ -13,9 +13,10 @@
     <string name="fia">FIA</string>
     <string name="about_artist">About Artist</string>
     <string name="see_more">SEE MORE</string>
-    <string name="about">About</string>
     <string name="dashboard">Dashboard</string>
     <string name="click_to_start_recognition">Click to start recognition</string>
     <string name="click_to_start_recognition_">Click to start Recognition</string>
     <string name="empty">Empty</string>
+    <string name="recent_search">Recent Search</string>
+    <string name="about">About</string>
 </resources>

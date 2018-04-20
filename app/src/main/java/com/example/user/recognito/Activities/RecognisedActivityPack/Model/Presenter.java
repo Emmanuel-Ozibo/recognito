@@ -89,6 +89,7 @@ public class Presenter implements RecognisedContract.RecognisedFragmentPresenter
                 trackList = topTracksRequest.get();
 
 
+
             } catch (IOException e){
                 e.printStackTrace();
                 Log.i("crash", "Crashed");

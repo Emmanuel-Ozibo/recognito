@@ -49,7 +49,7 @@ public class RecognitoDb extends SQLiteOpenHelper{
                 RecognitoContract.MUSIC_TITLE + " TEXT, " +
                 RecognitoContract.DURATION + " INTEGER, " +
                 RecognitoContract.IMAGE_URL + " TEXT, " +
-                RecognitoContract.MUSIC_TIME_STAMP + " TIMESTAMP DEFAULT CURRENT TIMESTAMP" +
+                RecognitoContract.MUSIC_TIME_STAMP + " TIMESTAMP DEFAULT CURRENT TIMESTAMP " +
                 " );";
         sqLiteDatabase.execSQL(CREATE_DATABASE);
 
@@ -117,9 +117,9 @@ public class RecognitoDb extends SQLiteOpenHelper{
             String albumTitle = cursor.getString(cursor.getColumnIndex(RecognitoContract.MUSIC_TITLE));
             int duration = cursor.getInt(cursor.getColumnIndex(RecognitoContract.DURATION));
             String imageUrl = cursor.getString(cursor.getColumnIndex(RecognitoContract.IMAGE_URL));
-            long timeStamp = cursor.getLong(cursor.getColumnIndex(RecognitoContract.MUSIC_TIME_STAMP));
+//            long timeStamp = cursor.getLong(cursor.getColumnIndex(RecognitoContract.MUSIC_TIME_STAMP));
             DataBaseSongModel songModel = new DataBaseSongModel(songTitle, albumTitle, duration, imageUrl);
-            songModel.setTimeStamp(timeStamp);
+//            songModel.setTimeStamp(timeStamp);
             songModelList.add(songModel);
         }
         return songModelList;

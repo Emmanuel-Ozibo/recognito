@@ -111,6 +111,7 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
 
         RecognisedSong recognisedSong = getArguments().getParcelable(RECOGNISED_SONG_KEY);
         long timeStamp = System.currentTimeMillis();
+        recognisedSong.setTimeStamp(timeStamp);
         presenter.insertSongIntoDb(recognisedSong);
         setUpImageViewsAndText(recognisedSong, view);
 //        startAnimation();

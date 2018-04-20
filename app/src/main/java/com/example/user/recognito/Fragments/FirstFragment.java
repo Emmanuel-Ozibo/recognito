@@ -17,6 +17,7 @@ import com.example.user.recognito.R;
  * Created by emmanuel on 12/12/2017.
  */
 
+
 public class FirstFragment extends Fragment implements View.OnClickListener{
     private OnFirstFragmantAttached attached;
     private RecogniseButtonView buttonView;
@@ -45,6 +46,8 @@ public class FirstFragment extends Fragment implements View.OnClickListener{
         buttonView = view.findViewById(R.id.recognition_button);
         ImageView dash_board = view.findViewById(R.id.dashboard_mv);
         ImageView about = view.findViewById(R.id.about_mv);
+        ImageView settings = view.findViewById(R.id.settings);
+        settings.setOnClickListener(this);
         dash_board.setOnClickListener(this);about.setOnClickListener(this);
         buttonView.setOnClickListener(this);
         startViewAnimation();
@@ -79,6 +82,8 @@ public class FirstFragment extends Fragment implements View.OnClickListener{
             case R.id.about_mv:
                 attached.onAboutClicked();
                 break;
+            case R.id.settings:
+                attached.onSettingsClicked();
         }
     }
 
@@ -86,5 +91,6 @@ public class FirstFragment extends Fragment implements View.OnClickListener{
         void onRecognitionButtonClicked();
         void onDashboardClicked();
         void onAboutClicked();
+        void onSettingsClicked();
     }
 }

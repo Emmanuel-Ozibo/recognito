@@ -23,6 +23,8 @@ import java.util.List;
 public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.DashBoardViewHolder>{
     private List<DataBaseSongModel> dataBaseSongModels;
     private Context context;
+    private static final int MUSIC_ITEM_VIEW = 0;
+    private static final int HISTORY_ITEM_VIEW = 1;
 
     public DashBoardAdapter(Context context, List<DataBaseSongModel> dataBaseSongModels) {
         this.dataBaseSongModels = dataBaseSongModels;
@@ -31,13 +33,34 @@ public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.Dash
 
     @Override
     public DashBoardViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View view = LayoutInflater.from(context).inflate(R.layout.dash_board_item_view, parent, false);
-        return new DashBoardViewHolder(view);
+        int layoutRes = 0;
+        switch (viewType){
+            case HISTORY_ITEM_VIEW:
+                layoutRes = R.layout.history_item_view;
+                break;
+            case MUSIC_ITEM_VIEW:
+                layoutRes = R.layout.dash_board_item_view;
+                break;
+        }
+        View view = LayoutInflater.from(context).inflate(layoutRes, parent, false);
+        return new DashBoardViewHolder(view, viewType);
     }
 
     @Override
-    public void onBindViewHolder(DashBoardViewHolder holder, int position) {
-        holder.onBindViews(position);
+    public int getItemViewType(int position){
+        if (position == 0){
+            return HISTORY_ITEM_VIEW;
+        }else {
+            return MUSIC_ITEM_VIEW;
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(DashBoardViewHolder holder, int position){
+        int type = holder.getItemViewType();
+        if (type != HISTORY_ITEM_VIEW){
+            holder.onBindViews(position);
+        }
     }
 
     @Override
@@ -53,7 +76,7 @@ public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.Dash
         private ImageView poster_imageView;
 
 
-        public DashBoardViewHolder(View itemView) {
+        public DashBoardViewHolder(View itemView, int viewType){
             super(itemView);
             songTitle_tv = itemView.findViewById(R.id.song_title_tv);
             albumTitle_tv = itemView.findViewById(R.id.album_duration_tv);
@@ -66,26 +89,26 @@ public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.Dash
             String albumTitle = dataBaseSongModels.get(position).getAlbumTitle();
             int duration = dataBaseSongModels.get(position).getDuration();
             String imageUrl = dataBaseSongModels.get(position).getImageUrl();
-            long timeStamp = dataBaseSongModels.get(position).getTimeStamp();
+//            long timeStamp = dataBaseSongModels.get(position).getTimeStamp();
+            long timeStamp = System.currentTimeMillis();
 
             String durationStr = getDurationStr(duration);
 
             songTitle_tv.setText(songTitle);
             albumTitle_tv.setText(durationStr);
-            duration_tv.setText("");
+            duration_tv.setText(getDate(timeStamp));
 
             setImage(imageUrl);
         }
 
-        private void getElapseTimeInMills(long initTime){
-            long currentTime = System.currentTimeMillis();
-            Calendar calendarInit = Calendar.getInstance();
-            Calendar calendarNow = Calendar.getInstance();
-            long timeIntervel = currentTime - initTime;
-            calendarInit.setTimeInMillis(initTime);
-            calendarNow.setTimeInMillis(currentTime);
-
-            calendarInit.get(Calendar.HOUR);
+        private String getDate(long initTime){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(initTime);
+            //Format -> dd-mm-yyyy
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            int month = calendar.get(Calendar.MONTH)+1;
+            int year = calendar.get(Calendar.YEAR);
+            return day + "-" +month+"-" + year;
         }
 
         private String getDurationStr(int durationMilsecs){

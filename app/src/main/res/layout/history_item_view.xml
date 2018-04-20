@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <TextView
-        android:text="Recent"
+        android:text="@string/recent_search"
         android:id="@+id/history_item_status"
-        android:textSize="20sp"
-        android:textColor="@color/see_more"
+        android:textSize="16sp"
+        android:background="@drawable/history_item_background"
+        android:textColor="@color/white"
         android:textAlignment="center"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="5dp"
-        android:layout_width="match_parent"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="3dp"
+        android:paddingTop="3dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </FrameLayout>

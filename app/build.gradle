@@ -46,6 +46,7 @@ dependencies {
         exclude group: "commons-beanutils", module: "commons-beanutils"
     }
     compile 'commons-beanutils:commons-beanutils:20030211.134440'
+    //implementation 'com.android.support:preference-v7:26.1.0'
     compile project(':RecogniseButton')
 
 }

@@ -6,10 +6,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
 import com.example.user.recognito.DataModels.DataBaseSongModel;
 import com.example.user.recognito.Fragments.DashBoardFragment;
 import com.example.user.recognito.Fragments.ErrorFragments.EmptyHistory;
 import com.example.user.recognito.R;
+import com.example.user.recognito.Utils.ToastMessageUtil;
+
 import java.util.List;
 
 /**
@@ -62,6 +68,27 @@ public class DashBoardActivity extends AppCompatActivity implements DashBoardCon
             DashBoardFragment fragment = DashBoardFragment.newInstance(baseSongModelList);
             addFragment(fragment);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.dash_board_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.settings:
+                //open the settings activity
+                ToastMessageUtil.getToastMessage(this, "Settings");
+                break;
+            case R.id.about:
+                //open the about activity
+                ToastMessageUtil.getToastMessage(this, "About");
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -49,6 +49,7 @@
         <activity android:name=".Activities.YouTubePlayerActivity"/>
         <activity android:name=".Activities.DashBoardActivityPack.DashBoardActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.AboutActivity" />
 
 
     </application>
