@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Recognito</string>
+    <string name="open_nav">open navigation</string>
+    <string name="close_nav">close navigation</string>
+    <string name="history">History</string>
+    <string name="settings">Settings</string>
+    <string name="powered_by_acrcloud">Powered by ACRCLOUD</string>
+    <string name="loading_please_wait">Loading, please wait...</string>
+    <string name="youtube">YouTube</string>
+    <string name="wikipedia">Wikipedia</string>
+    <string name="top_track">Top Tracks</string>
+    <string name="wiki_text_info">No information</string>
+    <string name="fia">FIA</string>
+    <string name="about_artist">About Artist</string>
+    <string name="see_more">SEE MORE</string>
+    <string name="about">About</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="click_to_start_recognition">Click to start recognition</string>
+    <string name="click_to_start_recognition_">Click to start Recognition</string>
+    <string name="empty">Empty</string>
+</resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/recognito_background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:src="@drawable/ic_action_cancel"
+        android:layout_margin="5dp"
+        android:id="@+id/cancel_recognito"
+        android:layout_width="30dp"
+        android:layout_height="30dp"/>
+
+    <com.skyfishjy.library.RippleBackground
+        android:id="@+id/ripple_content"
+        app:rb_color="@color/endColor"
+        app:rb_radius="32dp"
+        app:rb_rippleAmount="5"
+        app:rb_duration="1200"
+        app:rb_scale="7"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.skyfishjy.library.RippleBackground>
+
+    <TextView
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:layout_marginBottom="7dp"
+        android:layout_gravity="bottom"
+        android:textAlignment="center"
+        android:text="@string/powered_by_acrcloud"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</FrameLayout>

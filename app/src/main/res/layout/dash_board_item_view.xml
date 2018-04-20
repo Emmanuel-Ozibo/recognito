@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="85dp"
+    app:cardElevation="3dp"
+    android:layout_margin="3dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:padding="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/album_art_mv"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="12dp"
+            app:srcCompat="@drawable/ic_action_image" />
+
+        <TextView
+            android:id="@+id/song_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/album_art_mv"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/album_art_mv"
+            android:layout_toRightOf="@+id/album_art_mv"
+            tools:text="Talking to the moon"
+            android:textSize="18sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+        <TextView
+            android:id="@+id/album_duration_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/song_title_tv"
+            android:layout_alignStart="@+id/song_title_tv"
+            android:layout_below="@+id/song_title_tv"
+            tools:text="Bruno Mars"
+            android:layout_marginTop="2dp"
+            android:textAppearance="@style/TextAppearance.Compat.Notification.Info" />
+
+        <TextView
+            android:id="@+id/timestamp_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/album_art_mv"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            tools:text="16-April-2018" />
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>

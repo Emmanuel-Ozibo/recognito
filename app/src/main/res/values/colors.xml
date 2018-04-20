@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Main App colors-->
+    <color name="colorPrimary">#bebebe</color>
+    <color name="colorPrimaryDark">#979797</color>
+    <color name="colorAccent">#0293e2</color>
+    <color name="black">#464545</color>
+    <color name="grey">#a4a4a4</color>
+    <color name="see_more">#0277BD</color>
+
+
+    <!--Color gradients-->
+    <color name="endColor">#0168b7</color>
+    <color name="centerColor">#07a2f7</color>
+    <color name="startColor">#68d0ff</color>
+
+    <!--Custom colors-->
+    <color name="white">#ffffff</color>
+    <color name="recog_btn">#128ed9</color>
+
+</resources>

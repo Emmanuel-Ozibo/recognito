@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/recognito_background">
+
+
+    <com.example.customviewtestmodule.RecogniseButtonView
+        android:id="@+id/recognition_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/info_txtview"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        app:buttonIcon="@drawable/ic_mic_white_48dp"
+        app:button_color="@android:color/holo_blue_dark"
+        app:icon_size="75dp" />
+
+    <TextView
+        android:id="@+id/info_txtview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="41dp"
+        android:text="@string/click_to_start_recognition_"
+        android:textColor="@color/white"
+        android:textSize="25sp" />
+
+    <ImageView
+        android:id="@+id/dashboard_mv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/recognition_button"
+        android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="76dp"
+        app:srcCompat="@drawable/ic_dashboard_white_48dp" />
+
+    <ImageView
+        android:id="@+id/about_mv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/dashboard_mv"
+        android:layout_marginEnd="38dp"
+        android:layout_marginRight="38dp"
+        app:srcCompat="@drawable/ic_copyright_white_48dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/dashboard_mv"
+        android:layout_alignStart="@+id/dashboard_mv"
+        android:layout_below="@+id/dashboard_mv"
+        android:layout_marginTop="12dp"
+        android:text="Dashboard"
+        android:textColor="@color/white"
+        android:textSize="17dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView3"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_alignEnd="@+id/about_mv"
+        android:layout_alignRight="@+id/about_mv"
+        android:text="About"
+        android:textSize="17dp"
+        android:textColor="@color/white"/>
+
+
+</RelativeLayout>

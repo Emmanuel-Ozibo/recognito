@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/history"
+        android:title="@string/dashboard"
+        android:icon="@drawable/ic_dashboard_white_24dp"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/recognise"
+        android:title="Start Recognition"
+        android:icon="@drawable/ic_action_mic"
+        app:showAsAction="always"/>
+
+    <item android:id="@+id/about"
+        android:title="@string/about"
+        android:icon="@drawable/ic_copyright_white_24dp"
+        app:showAsAction="always"/>
+
+</menu>

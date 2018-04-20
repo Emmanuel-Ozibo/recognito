@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/recognito_background"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:src="@drawable/ic_report_problem_white_48dp"
+        android:layout_centerInParent="true"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageView" />
+
+    <TextView
+        android:padding="7dp"
+        android:textAlignment="center"
+        android:id="@+id/err_reason"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
+        android:textSize="20dp"
+        tools:text="TextView" />
+
+    <Button
+        android:id="@+id/start_recognition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/err_reason"
+        android:layout_margin="5dp"
+        android:text="Re-try" />
+
+</RelativeLayout>
