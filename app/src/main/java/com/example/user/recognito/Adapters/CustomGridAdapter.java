@@ -24,17 +24,15 @@ import java.util.List;
  * Created by emmanuel on 12/31/2017.
  */
 
-
-
-public class CustomGridAdapter extends ArrayAdapter<Track>{
+public class CustomGridAdapter extends ArrayAdapter<Artist>{
     private Context context;private int Layoutres;
-    private List<Track>trackList;
+    private List<Artist>artistList;
     private ImageView songPoster;
 
-    public CustomGridAdapter(@NonNull Context context, int resource, @NonNull List<Track> trackList) {
-        super(context, resource, trackList);
+    public CustomGridAdapter(@NonNull Context context, int resource, @NonNull List<Artist> artistList) {
+        super(context, resource, artistList);
         this.context = context;this.Layoutres = resource;
-        this.trackList = trackList;
+        this.artistList = artistList;
 
 
     }
@@ -45,8 +43,8 @@ public class CustomGridAdapter extends ArrayAdapter<Track>{
         if (convertView == null){
             convertView = LayoutInflater.from(context).inflate(Layoutres, parent, false);
 
-            String similarSongTitle = trackList.get(position).getName();
-            String similarSongImageUrl = trackList.get(position).getAlbum().getImages().get(0).getUrl();
+            String similarSongTitle = artistList.get(position).getName();
+            String similarSongImageUrl = artistList.get(position).getImages().get(0).getUrl();
 
             TextView songTitleTv = convertView.findViewById(R.id.similar_song_title);
             songPoster = convertView.findViewById(R.id.similar_song_poster);
@@ -76,11 +74,12 @@ public class CustomGridAdapter extends ArrayAdapter<Track>{
 
     @Override
     public int getCount(){
-        int numberOfItems = trackList.size();
+        int numberOfItems = artistList.size();
         if (numberOfItems > 10){
             return 10;
         }else {
-            trackList.size();
+            artistList.size();
+
         }
         return 10;
     }

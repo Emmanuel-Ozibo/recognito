@@ -8,17 +8,24 @@ import android.util.Log;
 import com.example.user.recognito.Activities.RecognisedActivityPack.RecognisedContract;
 import com.example.user.recognito.DataModels.RecognisedSong;
 import com.example.user.recognito.Utils.Constant;
+import com.example.user.recognito.Utils.CustomExecutor;
 import com.example.user.recognito.Utils.ImageBlurUtil;
 import com.example.user.recognito.Utils.ImageLoadingUtil;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.SettableFuture;
 import com.wrapper.spotify.Api;
 import com.wrapper.spotify.exceptions.WebApiException;
+import com.wrapper.spotify.methods.RelatedArtistsRequest;
 import com.wrapper.spotify.methods.TopTracksRequest;
 import com.wrapper.spotify.methods.authentication.ClientCredentialsGrantRequest;
+import com.wrapper.spotify.models.Artist;
 import com.wrapper.spotify.models.ClientCredentials;
 import com.wrapper.spotify.models.Track;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by emmanuel on 12/30/2017.
@@ -35,8 +42,7 @@ public class Presenter implements RecognisedContract.RecognisedFragmentPresenter
 
 
     /**
-     * @param context This is the application context
-     * @param imagePath This is the path to the image
+      * @param imagePath This is the path to the image
      * */
     @Override
     public void getImageBitmaps(final Context context, String imagePath){
@@ -52,59 +58,69 @@ public class Presenter implements RecognisedContract.RecognisedFragmentPresenter
     }
 
     @Override
-    public void getSimilarArtist(List<String> artistIds) {
-        //todo: set similarTracks
-        PresenterAsynTask asynTask = new PresenterAsynTask(artistIds);
-        asynTask.execute();
+    public void getSimilarArtist(final List<String> artistIds){
+        RecognitoAsynTask asynTask = new RecognitoAsynTask(artistIds);
+        asynTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
+    private static class RecognitoAsynTask extends AsyncTask<Void, Void, List<Artist>>{
+        List<String> stringList;
+        List<Artist>artistList=null;
+
+        private RecognitoAsynTask(List<String> strings){
+            this.stringList = strings;
+        }
+
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+            Log.i("logger1", "onPreExecute");
+        }
+
+        @Override
+        protected List<Artist>doInBackground(Void... voids){
+            Log.i("logger2", "doInBackground");
+
+            Api api = Api.builder()
+                    .clientSecret(Constant.CLIENT_SECRET)
+                    .clientId(Constant.CLIENT_ID)
+                    .build();
+
+            ClientCredentialsGrantRequest request = api.clientCredentialsGrant().build();
+
+            SettableFuture<ClientCredentials> future = request.getAsync();
+
+            ClientCredentials clientCredentials = null;
+            try {
+                clientCredentials = future.get();
+                api.setAccessToken(clientCredentials.getAccessToken());
+
+                RelatedArtistsRequest relatedArtistsRequest = api.getArtistRelatedArtists(stringList.get(0)).build();
+                artistList = relatedArtistsRequest.get();
+
+                
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (WebApiException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return artistList;
+        }
+
+        @Override
+        protected void onPostExecute(List<Artist> artistList) {
+            super.onPostExecute(artistList);
+            Log.i("logger3", "onPostExecute");
+        }
+    }
 
     @Override
     public void insertSongIntoDb(RecognisedSong recognisedSong) {
         recMvpModel.putRecognisedSongIntoDb(recognisedSong);
-    }
-
-    private static class PresenterAsynTask extends AsyncTask<Void, Void, List<Track>> {
-        private List<String> artistIds;
-
-        public PresenterAsynTask(List<String> artistIds) {
-            this.artistIds = artistIds;
-        }
-
-        //todo: Handle this later
-        List<Track> trackList = null;
-        @Override
-        protected List<Track> doInBackground(Void... voids){
-            Api api = Api.builder()
-                    .clientId(Constant.CLIENT_ID)
-                    .clientSecret(Constant.CLIENT_SECRET)
-                    .build();
-            ClientCredentialsGrantRequest request = ClientCredentialsGrantRequest.builder().build();
-            try {
-                ClientCredentials clientCredentials =  request.get();
-                String accessToken = clientCredentials.getAccessToken();
-                api.setAccessToken(accessToken);
-
-                TopTracksRequest topTracksRequest = api.getTopTracksForArtist(artistIds.get(0), "SE").build();
-                trackList = topTracksRequest.get();
-
-
-
-            } catch (IOException e){
-                e.printStackTrace();
-                Log.i("crash", "Crashed");
-            } catch (WebApiException e) {
-                e.printStackTrace();
-                Log.i("crash", "Crashed");
-            }
-
-            return trackList;
-        }
-
-        @Override
-        protected void onPostExecute(List<Track> trackList) {
-            super.onPostExecute(trackList);
-            view.topTracks(trackList);
-        }
     }
 }

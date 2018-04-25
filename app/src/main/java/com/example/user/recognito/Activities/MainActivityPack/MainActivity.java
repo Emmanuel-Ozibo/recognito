@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements
          * if code == 0: parseJsonResultToJava() will be called
          * else the appropriate fragment will be displayed
          * */
-        freeAcrcloudResource();//i guess this will stop the double lunching
+        freeAcrcloudResource();
         presenter.checkResult(result);
     }
 
@@ -183,8 +183,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void freeAcrcloudResource() {
-        acrCloudClient.stopPreRecord();
-        acrCloudClient.stopRecordToRecognize();
+        acrCloudClient.cancel();
     }
 
     private void freeAcrCloudResourceAndRelease(){

@@ -49,7 +49,7 @@ public class RecognitoDb extends SQLiteOpenHelper{
                 RecognitoContract.MUSIC_TITLE + " TEXT, " +
                 RecognitoContract.DURATION + " INTEGER, " +
                 RecognitoContract.IMAGE_URL + " TEXT, " +
-                RecognitoContract.MUSIC_TIME_STAMP + " TIMESTAMP DEFAULT CURRENT TIMESTAMP " +
+                RecognitoContract.MUSIC_TIME_STAMP + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP " +
                 " );";
         sqLiteDatabase.execSQL(CREATE_DATABASE);
 

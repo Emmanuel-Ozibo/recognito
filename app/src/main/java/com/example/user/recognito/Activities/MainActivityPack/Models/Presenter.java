@@ -10,6 +10,7 @@ import com.example.user.recognito.DataModels.SongDetails;
 import com.example.user.recognito.Activities.MainActivityPack.RecognitoMainContract.Contracts;
 import com.example.user.recognito.DataModels.YouTube;
 import com.example.user.recognito.Utils.Constant;
+import com.example.user.recognito.Utils.CustomExecutor;
 import com.google.common.util.concurrent.SettableFuture;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
@@ -111,7 +112,7 @@ public class Presenter implements Contracts.Presenter{
     private static class PresenterAsynTask extends AsyncTask<Void, Void, Track>{
         private RecognisedSong recognisedSong;
 
-        public PresenterAsynTask(RecognisedSong recognisedSong) {
+        public PresenterAsynTask(RecognisedSong recognisedSong){
             this.recognisedSong = recognisedSong;
         }
 
@@ -150,6 +151,7 @@ public class Presenter implements Contracts.Presenter{
         protected void onPostExecute(Track track) {
             super.onPostExecute(track);
             view.spotifyRequestPassed(track, recognisedSong.getYouTubeId());
+
         }
     }
 

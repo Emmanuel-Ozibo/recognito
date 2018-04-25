@@ -147,7 +147,7 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
             TrackModel trackModel = recognisedSong.getTrackModel();
             musicTv.setText(trackModel.name);
             presenter.getImageBitmaps(context, trackModel.imageModelList.get(0).getUrl());
-           // presenter.getSimilarArtist(trackModel.getArtistIds());
+            presenter.getSimilarArtist(trackModel.getArtistIds());
             setUpYouTubeThumbnail(view, recognisedSong.getYouTubeId());
         }
     }
@@ -170,19 +170,19 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
     }
 
     @Override
-    public void topTracks(List<Track> topTrackList){
+    public void topTracks(List<Artist> artistList){
         //todo:start populate the views: similar tracks
         View itemview = getView();
         if (itemview != null){
             GridView horizontalGridView = itemview.findViewById(R.id.horizontal_grid);
-            setUpParams(horizontalGridView, topTrackList);
+            setUpParams(horizontalGridView, artistList);
         }
 
     }
 
-    private void setUpParams(GridView horizontalGridView, List<Track> topTrackList) {
+    private void setUpParams(GridView horizontalGridView, List<Artist> artistList) {
         int itemResLayout = R.layout.similar_songs_item_view;
-        CustomGridAdapter customGridAdapter = new CustomGridAdapter(context, itemResLayout, topTrackList);
+        CustomGridAdapter customGridAdapter = new CustomGridAdapter(context, itemResLayout, artistList);
         float itemWidth = context.getResources().getDimensionPixelSize(R.dimen.similar_item_width);
         itemWidth = Math.round(itemWidth);
         float density = getScreenDensity();
