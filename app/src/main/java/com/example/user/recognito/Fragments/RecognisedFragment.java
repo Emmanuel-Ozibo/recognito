@@ -147,7 +147,7 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
             TrackModel trackModel = recognisedSong.getTrackModel();
             musicTv.setText(trackModel.name);
             presenter.getImageBitmaps(context, trackModel.imageModelList.get(0).getUrl());
-            presenter.getSimilarArtist(trackModel.getArtistIds());
+         //   presenter.getSimilarArtist(trackModel.getArtistIds());
             setUpYouTubeThumbnail(view, recognisedSong.getYouTubeId());
         }
     }

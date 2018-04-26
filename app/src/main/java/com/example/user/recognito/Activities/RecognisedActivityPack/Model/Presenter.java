@@ -98,7 +98,7 @@ public class Presenter implements RecognisedContract.RecognisedFragmentPresenter
                 RelatedArtistsRequest relatedArtistsRequest = api.getArtistRelatedArtists(stringList.get(0)).build();
                 artistList = relatedArtistsRequest.get();
 
-                
+
 
             } catch (InterruptedException e) {
                 e.printStackTrace();

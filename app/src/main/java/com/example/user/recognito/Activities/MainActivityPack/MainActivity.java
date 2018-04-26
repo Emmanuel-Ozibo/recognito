@@ -2,9 +2,11 @@ package com.example.user.recognito.Activities.MainActivityPack;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
+import android.preference.Preference;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -28,6 +30,7 @@ import com.example.user.recognito.Activities.MainActivityPack.Models.Presenter;
 import com.example.user.recognito.LastFmApiWapper.LastFmModels.Track.TrackModel;
 import com.example.user.recognito.R;
 import com.example.user.recognito.Activities.MainActivityPack.RecognitoMainContract.Contracts;
+import com.example.user.recognito.Settings.SettingsActivity;
 import com.example.user.recognito.Utils.Constant;
 import com.example.user.recognito.Utils.ToastMessageUtil;
 import com.wrapper.spotify.models.Artist;
@@ -35,6 +38,7 @@ import com.wrapper.spotify.models.Image;
 import com.wrapper.spotify.models.SimpleArtist;
 import com.wrapper.spotify.models.Track;
 
+import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -46,7 +50,8 @@ public class MainActivity extends AppCompatActivity implements
         Contracts.View,
         FirstFragment.OnFirstFragmantAttached,
         SoundRecognitionAnim.OnSoundRecognitionAminAttached,
-        MainActivityErrorFragment.OnMainActivityErrorFragmentListener{
+        MainActivityErrorFragment.OnMainActivityErrorFragmentListener,
+        SharedPreferences.OnSharedPreferenceChangeListener{
 
 
     private ACRCloudConfig acrCloudConfig;
@@ -58,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements
     private boolean permissionToRecordAccepted = false;
     private String[] permissions = {Manifest.permission.RECORD_AUDIO,Manifest.permission.VIBRATE};
     private static final int REQUEST_PERMISSIONS = 200;
-
+    private boolean vibrationStatus= false;
+    private SharedPreferences preferences;
 
 
     @Override
@@ -71,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements
             ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSIONS);
         }
 
+        //set up sharedPreference
+        setUpSharedPreference();
 
         fragmentManager = getSupportFragmentManager();
         presenter = new Presenter(this);
@@ -80,6 +88,12 @@ public class MainActivity extends AppCompatActivity implements
 
         setUpACRCloud(getConfig());
         acrCloudClient.startPreRecord(3000);
+    }
+
+    private void setUpSharedPreference() {
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        vibrationStatus = preferences.getBoolean(getResources().getString(R.string.vibration_pref), false);
+        preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     private boolean isAndroidMOrHigher() {
@@ -121,7 +135,10 @@ public class MainActivity extends AppCompatActivity implements
     public void parsedJavaObject(SongDetails songDetails, String artistName, final String title){
         presenter.createSongObj(songDetails);
         //give a small vibration
-        presenter.getSuccessVibration(this);
+        if (vibrationStatus){
+            presenter.getSuccessVibration(this);
+        }
+
         PreRecogniseFragment preRecogniseFragment = PreRecogniseFragment.newInstance(artistName, title);
         replaceFragment(preRecogniseFragment);
     }
@@ -129,7 +146,9 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void unsuccessfulJson(String jsonResult){
-        presenter.getFailureVibration(this);
+        if (vibrationStatus){
+            presenter.getFailureVibration(this);
+        }
         MainActivityErrorFragment mainActivityErrorFragment = MainActivityErrorFragment.newInstance(jsonResult);
         replaceFragment(mainActivityErrorFragment);
     }
@@ -245,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onSettingsClicked() {
-        ToastMessageUtil.getToastMessage(this, "Settings clicked");
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 
     @Override
@@ -263,6 +282,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        preferences.unregisterOnSharedPreferenceChangeListener(this);
         freeAcrCloudResourceAndRelease();
     }
 
@@ -282,5 +302,12 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onReTryButtonClicked(){
         onRecognitionButtonClicked();
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(getResources().getString(R.string.vibration_pref))){
+            vibrationStatus = sharedPreferences.getBoolean(getResources().getString(R.string.vibration_pref),  false);
+        }
     }
 }

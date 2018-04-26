@@ -50,6 +50,7 @@
         <activity android:name=".Activities.DashBoardActivityPack.DashBoardActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".Activities.AboutActivity" />
+        <activity android:name=".Settings.SettingsActivity" />
 
 
     </application>
