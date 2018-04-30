@@ -4,23 +4,22 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * Created by user on 12/23/2017.
+ * Created by emmanuel on 12/23/2017.
  */
+
 
 public class SharedPrefrenceHelper {
     private static final String NAME = "main_file";
+    private static final String TOKEN_KEY = "token";
 
-    public static boolean alreadyStarted(Context context){
-        boolean containsBool = false;
-        SharedPreferences sharedPreferences = context.getSharedPreferences(NAME, Context.MODE_PRIVATE);
-        boolean isInside = sharedPreferences.getBoolean("has_started", false);
-        if (isInside){
-            containsBool = true;
-        }else {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("has_started", true);
-            editor.apply();//writes it in the background
-        }
-        return containsBool;
+    private static SharedPreferences getPreference(Context context){
+        return context.getSharedPreferences(NAME, Context.MODE_PRIVATE);
+    }
+
+    public static void saveAccessToken(Context context, String value){
+        SharedPreferences sharedPreferences = getPreference(context);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(value, "");
+        editor.apply();
     }
 }

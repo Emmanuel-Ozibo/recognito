@@ -17,6 +17,7 @@ import android.os.Bundle;
 import com.acrcloud.rec.sdk.ACRCloudClient;
 import com.acrcloud.rec.sdk.ACRCloudConfig;
 import com.acrcloud.rec.sdk.IACRCloudListener;
+import com.example.user.recognito.Activities.AboutActivity;
 import com.example.user.recognito.Activities.DashBoardActivityPack.DashBoardActivity;
 import com.example.user.recognito.Activities.RecognisedActivityPack.RecognisedActivity;
 import com.example.user.recognito.DataModels.RecognisedSong;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements
         SoundRecognitionAnim.OnSoundRecognitionAminAttached,
         MainActivityErrorFragment.OnMainActivityErrorFragmentListener,
         SharedPreferences.OnSharedPreferenceChangeListener{
+
 
 
     private ACRCloudConfig acrCloudConfig;
@@ -260,6 +262,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onAboutClicked() {
         // TODO: 3/7/2018 handle about clicked here
+        startActivity(new Intent(this, AboutActivity.class));
     }
 
     @Override

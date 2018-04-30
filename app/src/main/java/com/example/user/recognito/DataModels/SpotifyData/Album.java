@@ -13,14 +13,14 @@ import java.util.List;
 
 public class Album implements Parcelable{
 
+    @SerializedName("name")
+    public String name;
+
     @SerializedName("images")
     public List<ImageModel>imageModelList;
 
-    public List<ImageModel> getImageModelList() {
-        return imageModelList;
-    }
-
     protected Album(Parcel in) {
+        name = in.readString();
         imageModelList = in.createTypedArrayList(ImageModel.CREATOR);
     }
 
@@ -36,6 +36,14 @@ public class Album implements Parcelable{
         }
     };
 
+    public String getName() {
+        return name;
+    }
+
+    public List<ImageModel> getImageModelList() {
+        return imageModelList;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -43,6 +51,7 @@ public class Album implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(name);
         parcel.writeTypedList(imageModelList);
     }
 }

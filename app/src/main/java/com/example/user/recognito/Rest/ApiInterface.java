@@ -3,6 +3,7 @@ package com.example.user.recognito.Rest;
 import com.example.user.recognito.DataModels.SpotifyData.AccessToken;
 import com.example.user.recognito.DataModels.SpotifyData.Album;
 import com.example.user.recognito.DataModels.SpotifyData.Request;
+import com.example.user.recognito.DataModels.SpotifyData.TrackWapper;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -18,16 +19,6 @@ import retrofit2.http.Query;
  */
 
 public interface ApiInterface{
-
-    @GET("authorize")
-    Call<Album> getAccessAlbum(@Query("client_id") String clientId,
-                                     @Query("response_type") String responseType,
-                                     @Query("redirect_uri") String redirectUri);
-
-    @GET("v1/albums/{vid}")
-    Call<Album> getAlbum(@Header("access_token") String accessToken,
-                         @Path("vid") String albumId);
-
-    @POST("/api/token")
-    Call<AccessToken> getAccessToken(@Body Request request);
+    @GET("v1/artists/{id}/top-tracks")
+    Call<TrackWapper> getTopTracks(@Path("id") String id, @Query("country") String country);
 }

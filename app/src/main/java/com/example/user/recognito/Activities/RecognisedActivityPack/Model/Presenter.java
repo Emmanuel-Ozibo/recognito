@@ -4,9 +4,14 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.user.recognito.Activities.RecognisedActivityPack.RecognisedContract;
 import com.example.user.recognito.DataModels.RecognisedSong;
+import com.example.user.recognito.DataModels.SpotifyData.Album;
+import com.example.user.recognito.DataModels.SpotifyData.TrackWapper;
+import com.example.user.recognito.Rest.ApiInterface;
+import com.example.user.recognito.Rest.ApiService;
 import com.example.user.recognito.Utils.Constant;
 import com.example.user.recognito.Utils.CustomExecutor;
 import com.example.user.recognito.Utils.ImageBlurUtil;
@@ -26,6 +31,10 @@ import com.wrapper.spotify.models.Track;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by emmanuel on 12/30/2017.
@@ -59,16 +68,21 @@ public class Presenter implements RecognisedContract.RecognisedFragmentPresenter
 
     @Override
     public void getSimilarArtist(final List<String> artistIds){
-        RecognitoAsynTask asynTask = new RecognitoAsynTask(artistIds);
+
+    }
+
+    @Override
+    public void getTopTracks(String trackId) {
+        RecognitoAsynTask asynTask = new RecognitoAsynTask(trackId);
         asynTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    private static class RecognitoAsynTask extends AsyncTask<Void, Void, List<Artist>>{
-        List<String> stringList;
-        List<Artist>artistList=null;
+    private static class RecognitoAsynTask extends AsyncTask<Void, Void, List<Album>>{
+        String trackId;
+        List<Album>albumList=null;
 
-        private RecognitoAsynTask(List<String> strings){
-            this.stringList = strings;
+        private RecognitoAsynTask(String trackId){
+            this.trackId = trackId;
         }
 
         @Override
@@ -78,7 +92,7 @@ public class Presenter implements RecognisedContract.RecognisedFragmentPresenter
         }
 
         @Override
-        protected List<Artist>doInBackground(Void... voids){
+        protected List<Album>doInBackground(Void... voids){
             Log.i("logger2", "doInBackground");
 
             Api api = Api.builder()
@@ -86,40 +100,57 @@ public class Presenter implements RecognisedContract.RecognisedFragmentPresenter
                     .clientId(Constant.CLIENT_ID)
                     .build();
 
-            ClientCredentialsGrantRequest request = api.clientCredentialsGrant().build();
 
-            SettableFuture<ClientCredentials> future = request.getAsync();
+//            RelatedArtistsRequest relatedArtistsRequest = api.getArtistRelatedArtists(stringList.get(0)).build();
+//            artistList = relatedArtistsRequest.get();
 
-            ClientCredentials clientCredentials = null;
-            try {
-                clientCredentials = future.get();
-                api.setAccessToken(clientCredentials.getAccessToken());
+            String accessToken = getAccessToken(api);
+            ApiInterface apiInterface = ApiService.getRetrofit(Constant.BASE_URL_SPOTIFY, accessToken)
+                    .create(ApiInterface.class);
+            Call<TrackWapper> trackWapper = apiInterface.getTopTracks(trackId, "SE");
+            trackWapper.enqueue(new Callback<TrackWapper>() {
+                @Override
+                public void onResponse(Call<TrackWapper> call, Response<TrackWapper> response) {
+                    if (response.isSuccessful()){
+                        albumList = response.body().getAlbumList();
+                    }
+                }
 
-                RelatedArtistsRequest relatedArtistsRequest = api.getArtistRelatedArtists(stringList.get(0)).build();
-                artistList = relatedArtistsRequest.get();
+                @Override
+                public void onFailure(Call<TrackWapper> call, Throwable t) {
 
-
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (WebApiException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return artistList;
+                }
+            });
+            return albumList;
         }
 
         @Override
-        protected void onPostExecute(List<Artist> artistList) {
-            super.onPostExecute(artistList);
+        protected void onPostExecute(List<Album> mAlbumList) {
+            super.onPostExecute(mAlbumList);
             Log.i("logger3", "onPostExecute");
+            view.topTracks(mAlbumList);
         }
     }
 
-    @Override
+    private static String getAccessToken(Api api) {
+        String accessToken = null;
+        ClientCredentialsGrantRequest request = api.clientCredentialsGrant().build();
+
+        SettableFuture<ClientCredentials> future = request.getAsync();
+
+        ClientCredentials clientCredentials = null;
+        try {
+            clientCredentials = future.get();
+            accessToken = clientCredentials.getAccessToken();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return accessToken;
+    }
+
+        @Override
     public void insertSongIntoDb(RecognisedSong recognisedSong) {
         recMvpModel.putRecognisedSongIntoDb(recognisedSong);
     }

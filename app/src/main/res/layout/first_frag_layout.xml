@@ -63,7 +63,7 @@
         android:layout_marginTop="12dp"
         android:text="Dashboard"
         android:textColor="@color/white"
-        android:textSize="17sp" />
+        android:textSize="17sp"/>
 
     <TextView
         android:id="@+id/textView4"
@@ -86,7 +86,7 @@
         android:layout_marginTop="13dp"
         android:layout_toEndOf="@+id/textView4"
         android:layout_toRightOf="@+id/textView4"
-        app:srcCompat="@drawable/ic_settings_white_24dp" />
+        app:srcCompat="@drawable/ic_settings_white_24dp"/>
 
 
 </RelativeLayout>
