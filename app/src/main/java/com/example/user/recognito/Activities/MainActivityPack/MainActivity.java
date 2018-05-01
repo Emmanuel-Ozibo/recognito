@@ -32,11 +32,13 @@ import com.example.user.recognito.R;
 import com.example.user.recognito.Activities.MainActivityPack.RecognitoMainContract.Contracts;
 import com.example.user.recognito.Settings.SettingsActivity;
 import com.example.user.recognito.Utils.Constant;
+import com.example.user.recognito.Utils.ToastMessageUtil;
 import com.wrapper.spotify.models.Image;
 import com.wrapper.spotify.models.SimpleArtist;
 import com.wrapper.spotify.models.Track;
 
 import android.support.v7.preference.PreferenceManager;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +61,10 @@ public class MainActivity extends AppCompatActivity implements
     private String[] permissions = {Manifest.permission.RECORD_AUDIO,Manifest.permission.VIBRATE};
     private static final int REQUEST_PERMISSIONS = 200;
     private boolean vibrationStatus= false;
+    private boolean recognitionOnStart = false;
     private SharedPreferences preferences;
+    private SoundRecognitionAnim soundRecognitionAnim;
+
 
 
     @Override
@@ -67,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Ask for permission(s) at rum time, but this should happen for SDK 6.0 and above
+        //Ask for permission(s) at runtime, but this should happen for SDK 6.0 and above
         if (isAndroidMOrHigher()) {
             ActivityCompat.requestPermissions(this, permissions, REQUEST_PERMISSIONS);
         }
@@ -83,11 +88,16 @@ public class MainActivity extends AppCompatActivity implements
 
         setUpACRCloud(getConfig());
         acrCloudClient.startPreRecord(3000);
+
+        if (recognitionOnStart){
+            onRecognitionButtonClicked();
     }
+}
 
     private void setUpSharedPreference() {
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         vibrationStatus = preferences.getBoolean(getResources().getString(R.string.vibration_pref), false);
+        recognitionOnStart = preferences.getBoolean(getResources().getString(R.string.recognition_pref), false);
         preferences.registerOnSharedPreferenceChangeListener(this);
     }
 
@@ -135,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         PreRecogniseFragment preRecogniseFragment = PreRecogniseFragment.newInstance(artistName, title);
-        replaceFragment(preRecogniseFragment);
+        replaceFragment(preRecogniseFragment, soundRecognitionAnim);
     }
 
 
@@ -145,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements
             presenter.getFailureVibration(this);
         }
         MainActivityErrorFragment mainActivityErrorFragment = MainActivityErrorFragment.newInstance(jsonResult);
-        replaceFragment(mainActivityErrorFragment);
+        replaceFragment(mainActivityErrorFragment, soundRecognitionAnim);
     }
 
     @Override
@@ -224,7 +234,6 @@ public class MainActivity extends AppCompatActivity implements
     private void addFragment(Fragment fragment){
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, fragment);
-        fragmentTransaction.addToBackStack("add");
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
 
@@ -236,18 +245,18 @@ public class MainActivity extends AppCompatActivity implements
         fragmentTransaction.commit();
     }
 
-    private void replaceFragment(Fragment fragment){
+    private void replaceFragment(Fragment fragment, Fragment oldFrament){
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.remove(oldFrament);
         fragmentTransaction.replace(R.id.fragment_container, fragment);
-        fragmentTransaction.addToBackStack("replace");
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         fragmentTransaction.commit();
     }
 
     @Override
     public void onRecognitionButtonClicked() {
-        SoundRecognitionAnim soundRecognitionAnim = new SoundRecognitionAnim();
-        replaceFragment(soundRecognitionAnim);
+        soundRecognitionAnim = new SoundRecognitionAnim();
+        replaceFragment(soundRecognitionAnim, firstFragment);
         presenter.startRecognition();
     }
 
@@ -291,9 +300,9 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onCancelClicked() {
+    public void onCancelClicked(){
         acrCloudClient.cancel();
-        replaceFragment(firstFragment);
+        replaceFragment(firstFragment, soundRecognitionAnim);
         setUpACRCloud(getConfig());
         acrCloudClient.startPreRecord(3000);
     }
@@ -307,6 +316,23 @@ public class MainActivity extends AppCompatActivity implements
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(getResources().getString(R.string.vibration_pref))){
             vibrationStatus = sharedPreferences.getBoolean(getResources().getString(R.string.vibration_pref),  false);
+        }else if (key.equals(getResources().getString(R.string.recognition_pref))){
+            recognitionOnStart = sharedPreferences.getBoolean(getResources().getString(R.string.recognition_pref), false);
         }
+    }
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //todo: show the first fragment
+        Log.i("onResume", "onResume");
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        Log.i("onPause", "onPause");
     }
 }

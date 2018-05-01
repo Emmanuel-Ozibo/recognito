@@ -73,8 +73,8 @@ public class Presenter implements Contracts.Presenter{
     public void createSongObj(SongDetails songDetails) {
         //get the relevant object here
         String youTubeId = "nCgQDjiotG0";
-        // TODO: 3/9/2018 get the youTube id
         //get the spotify id and youtube id
+        //todo: make sure it doesnt crash at this point -> always check null object
         String albumId = songDetails.getMetadata().getMusic().get(0).getExternal_metadata().getSpotify().album.getId();
         String trackId = songDetails.getMetadata().getMusic().get(0).getExternal_metadata().getSpotify().track.getId();
         List<Artist> artistList = songDetails.getMetadata().getMusic().get(0).getExternal_metadata().getSpotify().artists;
@@ -85,7 +85,6 @@ public class Presenter implements Contracts.Presenter{
         RecognisedSong recognisedSong = new RecognisedSong(albumId, youTubeId, trackId, artistList);
         view.songObjectCreated(recognisedSong);
     }
-
 
     @Override
     public void getSuccessVibration(Context context) {

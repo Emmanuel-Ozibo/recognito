@@ -11,10 +11,10 @@ public class Constant{
     public static final String BASE_URL_SPOTIFY = "http://api.spotify.com/";
     public static final String BASE_URL_ACCESS_TOKEN = "https://accounts.spotify.com/";
     public static final String YOUTUBE_API_KEY = "AlzaSyCBnlV8-6jewAwKblZuuCDfTKPojbRSsAE";
+    public static final String YOUTUBE_BASE_URL = "https://www.googleapis.com/youtube/";
     public static final String CLIENT_SECRET = "78a3c82a0ee045c39d960c64e44c235f";
     public static final String CLIENT_ID = "53f0563187c0454a8d565ba6ba840b65";
-    public static final String REDIRECT_URL = "http://com.example.user.recognito/";
-    public static final String REQUEST_BODY = "client_credentials";
+
 
 
     public static class LastFmConstants{

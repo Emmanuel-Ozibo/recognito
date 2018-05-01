@@ -1,26 +1,33 @@
 package com.example.user.recognito.Activities.RecognisedActivityPack;
 
-
 import android.content.Intent;
-import android.hardware.Sensor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.user.recognito.Activities.DashBoardActivityPack.DashBoardActivity;
 import com.example.user.recognito.Activities.MainActivityPack.MainActivity;
 import com.example.user.recognito.Activities.YouTubePlayerActivity;
 import com.example.user.recognito.DataModels.RecognisedSong;
-import com.example.user.recognito.DataModels.ShareContent;
+import com.example.user.recognito.DataModels.YouTubeData.YouTubeResponse;
 import com.example.user.recognito.Fragments.RecognisedFragment;
 import com.example.user.recognito.LastFmApiWapper.LastFmModels.Track.TrackModel;
 import com.example.user.recognito.R;
-import com.wrapper.spotify.models.Track;
+import com.example.user.recognito.Rest.ApiInterface;
+import com.example.user.recognito.Rest.ApiService;
+import com.example.user.recognito.Utils.Constant;
+import com.example.user.recognito.Utils.ToastMessageUtil;
+
+import java.util.Calendar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by emmanuel on 12/25/2017.
@@ -78,6 +85,7 @@ public class RecognisedActivity extends AppCompatActivity implements RecognisedF
 
     @Override
     public void onBackButtonClicked(){
+
         startActivity(new Intent(this, MainActivity.class));
     }
 

@@ -6,4 +6,12 @@
         android:summaryOn="vibration enabled"
         android:summaryOff="vibration disabled"
         android:defaultValue="true"/>
+
+    <CheckBoxPreference
+        android:title="Start recognition when app is opened"
+        android:key="@string/recognition_pref"
+        android:summaryOn="Enabled"
+        android:summaryOff="Disabled"
+        android:defaultValue="false"/>
+
 </PreferenceScreen>

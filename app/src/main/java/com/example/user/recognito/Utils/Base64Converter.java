@@ -8,7 +8,8 @@ import java.io.UnsupportedEncodingException;
  * Created by emmanuel on 12/28/2017.
  */
 
-public class Base64Converter {
+
+public class Base64Converter{
 
     public static String toBase64(String client_id, String client_secret){
         String base64String = null;
@@ -22,4 +23,5 @@ public class Base64Converter {
         }
         return base64String;
     }
+
 }

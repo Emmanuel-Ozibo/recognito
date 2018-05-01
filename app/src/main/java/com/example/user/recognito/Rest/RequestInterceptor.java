@@ -2,6 +2,7 @@ package com.example.user.recognito.Rest;
 
 import java.io.IOException;
 
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -11,18 +12,22 @@ import okhttp3.Response;
  */
 
 public class RequestInterceptor implements Interceptor{
-    private String accessToken;
+    private String apiKey;
 
-    public RequestInterceptor(String accessToken){
-        this.accessToken = accessToken;
+    public RequestInterceptor(String apiKey){
+        this.apiKey = apiKey;
     }
 
     @Override
     public Response intercept(Chain chain) throws IOException{
         Request httpRequest = chain.request();
-        Request.Builder builder = httpRequest.newBuilder();
-        builder.addHeader("Authorization", "Bearer " + accessToken);
-        Request newRequest = builder.build();
+        HttpUrl httpUrl = httpRequest.url();
+        HttpUrl newHttpUrl = httpUrl.newBuilder()
+                .addQueryParameter("key", apiKey)
+                .build();
+        Request.Builder requestBuilder = httpRequest.newBuilder();
+        requestBuilder.url(newHttpUrl);
+        Request newRequest = requestBuilder.build();
         return chain.proceed(newRequest);
     }
 

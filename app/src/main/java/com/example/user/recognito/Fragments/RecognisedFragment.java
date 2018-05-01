@@ -72,9 +72,7 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recognised_fragment_layout, container, false);
-
         setUpViewsAndListeners(view);
-
         return view;
     }
 
@@ -129,9 +127,14 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
         return artistStringBuilder.toString();
     }
 
-    private void setUpYouTubeThumbnail(View view,  String youTubeId) {
-        YouTubeThumbnailView thumbnailView = view.findViewById(R.id.youtube_thumbnail_view);
-        thumbnailView.initialize(Constant.YOUTUBE_API_KEY, new YouTubeThumbnailViewImple(youTubeId));
+    public void setUpYouTubeThumbnail(View view,  String youTubeId) {
+        if (youTubeId.equalsIgnoreCase("nCgQDjiotG0")){
+
+        }else {
+            YouTubeThumbnailView thumbnailView = view.findViewById(R.id.youtube_thumbnail_view);
+            thumbnailView.initialize(Constant.YOUTUBE_API_KEY, new YouTubeThumbnailViewImple(youTubeId));
+        }
+
     }
 
     @Override
@@ -229,6 +232,7 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
                 @Override
                 public void onThumbnailError(YouTubeThumbnailView youTubeThumbnailView, YouTubeThumbnailLoader.ErrorReason errorReason) {
                     //todo: Try to reload
+
                 }
             });
         }
