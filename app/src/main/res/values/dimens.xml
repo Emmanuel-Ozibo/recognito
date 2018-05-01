@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="similar_item_width">150dp</dimen>
+    <dimen name="similar_item_width">50dp</dimen>
     <dimen name="recognise_frag_poster_height">250dp</dimen>
     <dimen name="icon_width">60dp</dimen>
 </resources>

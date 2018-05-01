@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
@@ -41,7 +42,6 @@ public class RecognisedActivity extends AppCompatActivity implements RecognisedF
         youTubeId = intent.getStringExtra("youtubeId");
         TrackModel trackModel= intent.getParcelableExtra("trackmodel");
 
-
         RecognisedSong recognisedSong = new RecognisedSong(trackModel, youTubeId);
         RecognisedFragment recognisedFragment = RecognisedFragment.newInstance(recognisedSong);
         //add the recognised fragment
@@ -68,8 +68,8 @@ public class RecognisedActivity extends AppCompatActivity implements RecognisedF
     }
 
     @Override
-    public void onShareButtonClicked(ShareContent shareContent) {
-
+    public void onShareButtonClicked(){
+        //todo: implement this matter
     }
 
     @Override

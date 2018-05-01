@@ -13,27 +13,32 @@ import java.util.List;
 
 public class TrackModel implements Parcelable{
 
-
     public String name;
     public int duration;
     public int popularity;
     public List<ImageModel> imageModelList;
-    public List<String>artistIds;
+    public List<String> avaliableMarkets;
+    public List<String>artists;
 
-    public TrackModel(String name, int duration, int popularity, List<ImageModel> imageModelList, List<String> artistIds) {
+    public TrackModel(String name, int duration, int popularity,
+                      List<ImageModel> imageModelList, List<String> avaliableMarkets,
+                      List<String> artists){
         this.name = name;
+        this.artists = artists;
         this.duration = duration;
         this.popularity = popularity;
         this.imageModelList = imageModelList;
-        this.artistIds = artistIds;
+        this.avaliableMarkets = avaliableMarkets;
     }
+
 
     protected TrackModel(Parcel in) {
         name = in.readString();
         duration = in.readInt();
         popularity = in.readInt();
         imageModelList = in.createTypedArrayList(ImageModel.CREATOR);
-        artistIds = in.createStringArrayList();
+        avaliableMarkets = in.createStringArrayList();
+        artists = in.createStringArrayList();
     }
 
     @Override
@@ -42,7 +47,8 @@ public class TrackModel implements Parcelable{
         dest.writeInt(duration);
         dest.writeInt(popularity);
         dest.writeTypedList(imageModelList);
-        dest.writeStringList(artistIds);
+        dest.writeStringList(avaliableMarkets);
+        dest.writeStringList(artists);
     }
 
     @Override
@@ -78,7 +84,11 @@ public class TrackModel implements Parcelable{
         return imageModelList;
     }
 
-    public List<String> getArtistIds() {
-        return artistIds;
+    public List<String> getAvaliableMarkets() {
+        return avaliableMarkets;
+    }
+
+    public List<String> getArtists() {
+        return artists;
     }
 }

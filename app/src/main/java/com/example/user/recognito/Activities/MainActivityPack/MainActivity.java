@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
-import android.preference.Preference;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -33,18 +32,14 @@ import com.example.user.recognito.R;
 import com.example.user.recognito.Activities.MainActivityPack.RecognitoMainContract.Contracts;
 import com.example.user.recognito.Settings.SettingsActivity;
 import com.example.user.recognito.Utils.Constant;
-import com.example.user.recognito.Utils.ToastMessageUtil;
-import com.wrapper.spotify.models.Artist;
 import com.wrapper.spotify.models.Image;
 import com.wrapper.spotify.models.SimpleArtist;
 import com.wrapper.spotify.models.Track;
 
 import android.support.v7.preference.PreferenceManager;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class MainActivity extends AppCompatActivity implements
         IACRCloudListener,
@@ -53,8 +48,6 @@ public class MainActivity extends AppCompatActivity implements
         SoundRecognitionAnim.OnSoundRecognitionAminAttached,
         MainActivityErrorFragment.OnMainActivityErrorFragmentListener,
         SharedPreferences.OnSharedPreferenceChangeListener{
-
-
 
     private ACRCloudConfig acrCloudConfig;
     private ACRCloudClient acrCloudClient;
@@ -177,19 +170,20 @@ public class MainActivity extends AppCompatActivity implements
         String trackName = track.getName();
         int duration = track.getDuration();
         int popularity = track.getPopularity();
-        List<String> artistIds = getArtistIds(track.getArtists());
-
+        List<String> avaliableMarkets = track.getAvailableMarkets();
+        List<String> artistNames = getNames(track.getArtists());
         List<ImageModel>imageModelList = getImageModelList(track.getAlbum().getImages());
-
-        return new TrackModel(trackName, duration, popularity, imageModelList, artistIds);
+        return new TrackModel(trackName, duration, popularity, imageModelList, avaliableMarkets, artistNames);
     }
 
-    private List<String> getArtistIds(List<SimpleArtist> artists) {
-        List<String> artistIds = new ArrayList<>();
-        for (SimpleArtist simpleArtist : artists){
-            artistIds.add(simpleArtist.getId());
+    private List<String> getNames(List<SimpleArtist> artists){
+        List<String> names = new ArrayList<>();
+        for (SimpleArtist simpleArtist: artists){
+            String name = simpleArtist.getName();
+            names.add(name);
         }
-        return artistIds;
+        return names;
+
     }
 
     private List<ImageModel> getImageModelList(List<Image> imageList) {
@@ -261,7 +255,6 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onAboutClicked() {
-        // TODO: 3/7/2018 handle about clicked here
         startActivity(new Intent(this, AboutActivity.class));
     }
 

@@ -15,16 +15,14 @@ import java.util.List;
 
 public interface RecognisedContract{
 
+
     interface RecognisedFragmentView{
         void blurBitmapGenerated(Bitmap blurBitmap);
         void circularBitmapGenerated(Bitmap circularBitmap);
-        void topTracks(List<Album> albumList);
     }
 
     interface RecognisedFragmentPresenter{
         void getImageBitmaps(Context context, String imagePath);
-        void getSimilarArtist(List<String> similarIds);
-        void getTopTracks(String trackId);
         void insertSongIntoDb(RecognisedSong recognisedSong);
     }
 

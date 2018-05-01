@@ -53,7 +53,7 @@ public class Presenter implements Contracts.Presenter{
         /**
          * This will check the json result, if the request was successful or not
          * */
-        // TODO: 3/9/2018 Handle this more efficiently
+
         try {
             JSONObject jsonObject = new JSONObject(jsonResult);
             JSONObject jsonObject1 = jsonObject.getJSONObject("status");
@@ -97,7 +97,7 @@ public class Presenter implements Contracts.Presenter{
     @Override
     public void getFailureVibration(Context context) {
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        long[] pattern = {500L,500L};/// TODO: 3/9/2018 check out the developer site and make it sound twice
+        long[] pattern = {500L,500L};
         if (vibrator != null)
         vibrator.vibrate(pattern, 1);
     }

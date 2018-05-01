@@ -9,5 +9,4 @@ import com.example.user.recognito.DataModels.SongDetails;
 public interface DataManager{
     void storeInDataBase(SongDetails songDetails);
     void storeTokenInDb(String accessToken);
-
 }

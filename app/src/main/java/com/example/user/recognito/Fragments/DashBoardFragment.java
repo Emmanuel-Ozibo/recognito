@@ -63,7 +63,6 @@ public class DashBoardFragment extends Fragment{
         recyclerView.setAdapter(adapter);
     }
 
-    //todo: implement this functionality(display list, respond to item click, show the recognised activity)
     public interface OnDashBoardFragmentListener{
         void onItemClicked(int position);
     }

@@ -64,8 +64,6 @@ public class RecognisedSong implements Parcelable{
         this.youTubeId = youTubeId;
     }
 
-    // TODO: 12/26/2017 This object will contain: 1)The spotify album id and image url,Youtube id, deezer id, lyrics finder id
-
     protected RecognisedSong(Parcel in) {
         trackModel = in.readParcelable(TrackModel.class.getClassLoader());
         youTubeId = in.readString();

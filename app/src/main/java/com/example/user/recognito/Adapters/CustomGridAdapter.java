@@ -26,16 +26,17 @@ import java.util.List;
  */
 
 
-public class CustomGridAdapter extends ArrayAdapter<Album>{
-    private Context context;private int Layoutres;
-    private List<Album>albumList;
-    private ImageView songPoster;
+public class CustomGridAdapter extends ArrayAdapter<String>{
+    private Context context;
+    private int Layoutres;
+    private List<String>availableMarkets;
 
 
-    public CustomGridAdapter(@NonNull Context context, int resource, @NonNull List<Album> albumList) {
-        super(context, resource, albumList);
+
+    public CustomGridAdapter(@NonNull Context context, int resource, @NonNull List<String> availiableMarkets) {
+        super(context, resource, availiableMarkets);
         this.context = context;this.Layoutres = resource;
-        this.albumList = albumList;
+        this.availableMarkets = availiableMarkets;
     }
 
     @NonNull
@@ -43,44 +44,18 @@ public class CustomGridAdapter extends ArrayAdapter<Album>{
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent){
         if (convertView == null){
             convertView = LayoutInflater.from(context).inflate(Layoutres, parent, false);
-
-            String similarSongTitle = albumList.get(position).getName();
-            String similarSongImageUrl = albumList.get(position).getImageModelList().get(0).getUrl();
-
-            TextView songTitleTv = convertView.findViewById(R.id.similar_song_title);
-            songPoster = convertView.findViewById(R.id.similar_song_poster);
-
-            songTitleTv.setText(similarSongTitle);
-
-            //loads image into the image view
-            loadImageIntoView(similarSongImageUrl);
+            TextView marketTitle = convertView.findViewById(R.id.markets_tv);
+            marketTitle.setText(availableMarkets.get(position));
 
         }
         return convertView;
-
     }
-
-    private void loadImageIntoView(final String similarSongImageUrl) {
-        ImageLoadingUtil.loadImage(context, similarSongImageUrl, new ImageLoadingUtil.BitmapLoadedListener() {
-            @Override
-            public void onLoad(Bitmap originalBitmap){
-                songPoster.setImageBitmap(originalBitmap);
-                if (originalBitmap == null){
-                    loadImageIntoView(similarSongImageUrl);
-                }
-            }
-        });
-    }
-
 
     @Override
     public int getCount(){
-        int numberOfItems = albumList.size();
-        if (numberOfItems > 10) {
-            return 10;
-        } else {
-            albumList.size();
+        if (!availableMarkets.isEmpty() && availableMarkets != null){
+            return availableMarkets.size();
         }
-        return 10;
+        return 0;
     }
 }

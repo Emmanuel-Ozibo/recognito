@@ -1,7 +1,6 @@
 package com.example.user.recognito.Fragments;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -14,41 +13,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.user.recognito.Activities.RecognisedActivityPack.Model.Presenter;
 import com.example.user.recognito.Activities.RecognisedActivityPack.RecognisedContract;
 import com.example.user.recognito.Adapters.CustomGridAdapter;
 import com.example.user.recognito.DataModels.RecognisedSong;
 import com.example.user.recognito.DataModels.ShareContent;
-import com.example.user.recognito.DataModels.SpotifyData.Album;
-import com.example.user.recognito.LastFmApiWapper.LastFmModels.SimilarTrack.SimilarTrack;
 import com.example.user.recognito.LastFmApiWapper.LastFmModels.Track.TrackModel;
 import com.example.user.recognito.R;
 import com.example.user.recognito.Utils.Constant;
-import com.example.user.recognito.Utils.DisplayProperties;
 import com.example.user.recognito.Utils.ToastMessageUtil;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
-import com.wrapper.spotify.models.Artist;
-import com.wrapper.spotify.models.Track;
-
-import java.util.Calendar;
 import java.util.List;
 
 /**
  * Created by emmanuel on 12/12/2017.
  */
 
-
 public class RecognisedFragment extends Fragment implements RecognisedContract.RecognisedFragmentView,
         View.OnClickListener{
-
     private Context context;
     private static final String RECOGNISED_SONG_KEY = "key";
     private Presenter presenter;
@@ -57,6 +45,7 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
     private ImageView musicPoster,largeMusicPoster;
     private NestedScrollView nestedScrollView;
     private static final int ANIMATION_TIME = 3000;
+    private TextView durationTv, artistTv;
 
 
     public static RecognisedFragment newInstance(RecognisedSong recognisedSong) {
@@ -80,7 +69,6 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
         }
     }
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -91,7 +79,9 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
         return view;
     }
 
-    private void setUpViewsAndListeners(View view) {
+    private void setUpViewsAndListeners(View view){
+        durationTv = view.findViewById(R.id.duration_tv1);
+        artistTv = view.findViewById(R.id.artists_tv1);
         nestedScrollView = view.findViewById(R.id.nested_scrollView);
         musicTv = view.findViewById(R.id.music_title);
         musicPoster = view.findViewById(R.id.poster);
@@ -115,43 +105,28 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
         recognisedSong.setTimeStamp(timeStamp);
         presenter.insertSongIntoDb(recognisedSong);
         setUpImageViewsAndText(recognisedSong, view);
-//        startAnimation();
-    }
-
-    private void startAnimation(){
-        float poster_height = context.getResources().getDimension(R.dimen.recognise_frag_poster_height);
-        int screenWidth = DisplayProperties.getScreenWidth(context);
-        int screenHeight = DisplayProperties.getScreenHeight(context);
-        float initialScroolViewPosition = screenHeight - poster_height;
-        int scrollViewHeight = nestedScrollView.getHeight();
-        nestedScrollView.setTranslationX(-screenWidth);
-        nestedScrollView.animate()
-                .setDuration(ANIMATION_TIME)
-                .setInterpolator(new DecelerateInterpolator())
-                .translationY(screenWidth)
-                .setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        startFabAnimation();
-                    }
-
-                    private void startFabAnimation() {
-                        //todo: animated fab
-                    }
-                })
-                .start();
-
     }
 
     private void setUpImageViewsAndText(RecognisedSong recognisedSong, View view) {
         if (recognisedSong != null){
             TrackModel trackModel = recognisedSong.getTrackModel();
             musicTv.setText(trackModel.name);
+            durationTv.setText(String.valueOf(getDurationStr(trackModel.getDuration())));
+            artistTv.setText(getArtistsAsText(trackModel.getArtists()));
             presenter.getImageBitmaps(context, trackModel.imageModelList.get(0).getUrl());
-            presenter.getTopTracks(recognisedSong.getTrackId());
-         //   presenter.getSimilarArtist(trackModel.getArtistIds());
             setUpYouTubeThumbnail(view, recognisedSong.getYouTubeId());
+            GridView gridViewMarkets = view.findViewById(R.id.horizontal_grid);
+            setUpParams(gridViewMarkets, trackModel.getAvaliableMarkets());
         }
+    }
+
+    private String getArtistsAsText(List<String> artists){
+        StringBuilder artistStringBuilder = new StringBuilder();
+        for (String artist : artists){
+            String art = artist+", ";
+            artistStringBuilder.append(art);
+        }
+        return artistStringBuilder.toString();
     }
 
     private void setUpYouTubeThumbnail(View view,  String youTubeId) {
@@ -160,31 +135,27 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
     }
 
     @Override
-    public void blurBitmapGenerated(Bitmap blurBitmap) {
+    public void blurBitmapGenerated(Bitmap blurBitmap){
+        if (blurBitmap == null){
+            ToastMessageUtil.getToastMessage(context, "This image is null");
+        }
         //set the larger poster to be blur
         largeMusicPoster.setImageBitmap(blurBitmap);
     }
 
     @Override
-    public void circularBitmapGenerated(Bitmap circularBitmap) {
+    public void circularBitmapGenerated(Bitmap circularBitmap){
+        if (circularBitmap == null){
+            ToastMessageUtil.getToastMessage(context, "This image is null");
+        }
+
         //set the smaller image to be small
         musicPoster.setImageBitmap(circularBitmap);
     }
 
-    @Override
-    public void topTracks(List<Album> albumList){
-        //todo:start populate the views: similar tracks
-        View itemview = getView();
-        if (itemview != null){
-            GridView horizontalGridView = itemview.findViewById(R.id.horizontal_grid);
-            setUpParams(horizontalGridView, albumList);
-        }
-
-    }
-
-    private void setUpParams(GridView horizontalGridView, List<Album> albumList) {
+    private void setUpParams(GridView horizontalGridView, List<String> avaliableMarkets) {
         int itemResLayout = R.layout.similar_songs_item_view;
-        CustomGridAdapter customGridAdapter = new CustomGridAdapter(context, itemResLayout, albumList);
+        CustomGridAdapter customGridAdapter = new CustomGridAdapter(context, itemResLayout, avaliableMarkets);
         float itemWidth = context.getResources().getDimensionPixelSize(R.dimen.similar_item_width);
         itemWidth = Math.round(itemWidth);
         float density = getScreenDensity();
@@ -212,11 +183,10 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
         horizontalGridView.setAdapter(customGridAdapter);
     }
 
-
     @Override
-    public void onClick(View view) {
+    public void onClick(View view){
         if (view.getId() == R.id.rec_fab){
-            recognisedFragmentListener.onShareButtonClicked(null);
+            recognisedFragmentListener.onShareButtonClicked();
         }else if (view.getId() == R.id.back_btn){
             recognisedFragmentListener.onBackButtonClicked();
         }else if (view.getId() == R.id.youtube_thumbnail_view){
@@ -226,14 +196,19 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
         }
     }
 
+    private String getDurationStr(int durationMilsecs){
+        int duration = durationMilsecs/1000;
+        int munites = duration / 60;
+        int seconds = duration - (munites*60);
+        return munites + ":" + seconds;
+    }
 
     public interface OnRecognisedFragmentListener{
-        void onShareButtonClicked(@Nullable ShareContent shareContent);
+        void onShareButtonClicked();
         void onBackButtonClicked();
         void onYouTubeThumbnailViewClicked();
         void onDashBoardClicked();
     }
-
 
     private class YouTubeThumbnailViewImple implements YouTubeThumbnailView.OnInitializedListener{
         private String youTubeId;
@@ -257,7 +232,6 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
                 }
             });
         }
-
         @Override
         public void onInitializationFailure(YouTubeThumbnailView youTubeThumbnailView, YouTubeInitializationResult youTubeInitializationResult) {
 

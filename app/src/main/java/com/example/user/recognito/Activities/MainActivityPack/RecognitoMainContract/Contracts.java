@@ -17,13 +17,15 @@ import retrofit.RetrofitError;
  */
 
 public interface Contracts{
-    interface View{
+
+    interface View {
         void startRecognition();
         void parsedJavaObject(SongDetails songDetails, String artistName, String title);
         void unsuccessfulJson(String jsonResult);
         void songObjectCreated(RecognisedSong recognisedSong);
         void spotifyRequestPassed(Track track, String youTubeId);
     }
+
 
     interface Presenter{
         void startRecognition();

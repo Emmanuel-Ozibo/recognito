@@ -4,7 +4,6 @@ package com.example.user.recognito.Activities.MainActivityPack.Models;
 import com.example.user.recognito.DataModels.SongDetails;
 import com.example.user.recognito.Activities.MainActivityPack.RecognitoMainContract.Contracts;
 
-
 /**
  * Created by emmanuel on 12/10/2017.
  */
@@ -12,7 +11,7 @@ import com.example.user.recognito.Activities.MainActivityPack.RecognitoMainContr
 public class MvpModel implements DataManager{
     private Contracts.Presenter presenter;
 
-    public MvpModel(Contracts.Presenter presenter) {
+    public MvpModel(Contracts.Presenter presenter){
         this.presenter = presenter;
     }
 

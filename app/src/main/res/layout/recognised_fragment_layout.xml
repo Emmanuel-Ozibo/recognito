@@ -64,9 +64,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <include layout="@layout/artist_detail_layout"/>
             <include layout="@layout/you_tube_item_view"/>
             <include layout="@layout/similar_songs"/>
-            <include layout="@layout/about_artist_layout"/>
+            <!--<include layout="@layout/about_artist_layout"/>-->
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
@@ -76,6 +77,7 @@
         android:layout_marginBottom="20dp"
         android:layout_marginRight="15dp"
         android:id="@+id/rec_fab"
+        app:fabSize="normal"
         android:src="@drawable/ic_action_share"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"/>

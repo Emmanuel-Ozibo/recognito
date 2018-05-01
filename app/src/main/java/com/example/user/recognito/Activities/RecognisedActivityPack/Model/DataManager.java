@@ -7,6 +7,7 @@ import com.example.user.recognito.LastFmApiWapper.LastFmModels.Track.TrackModel;
  * Created by emmanuel on 12/30/2017.
  */
 
+
 public interface DataManager{
     void saveSongInDb(/*Some model**/);
     void fetchSimilarTracks(TrackModel trackModel);

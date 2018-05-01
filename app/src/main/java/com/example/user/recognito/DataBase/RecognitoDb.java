@@ -63,7 +63,6 @@ public class RecognitoDb extends SQLiteOpenHelper{
 
     public long insertRecognisedSongIntoDb(RecognisedSong recognisedSong){
         long id = 0L;
-        //todo: store the main item in the database, when the user clicks the item view, it will sync to the server again to get the remaining data
         TrackModel trackModel = recognisedSong.getTrackModel();
         if (trackModel != null){
             String musicTitle = trackModel.name;int duration = trackModel.duration;String albumTitle = trackModel.getName();

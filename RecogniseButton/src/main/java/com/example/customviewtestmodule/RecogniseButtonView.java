@@ -19,9 +19,7 @@ import android.view.View;
  * Created by emmanuel on 1/3/2018.
  */
 
-
 public class RecogniseButtonView extends View{
-
     private static final float SHADOW_OFFSET_DX = 0.5f;
     private static final float SHADOW_OFFSET_DY = 4.0f;
     private static final float SHADOW_RADIUS = 12.5f;

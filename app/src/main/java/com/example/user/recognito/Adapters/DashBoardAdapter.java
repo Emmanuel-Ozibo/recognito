@@ -26,6 +26,7 @@ public class DashBoardAdapter extends RecyclerView.Adapter<DashBoardAdapter.Dash
     private static final int MUSIC_ITEM_VIEW = 0;
     private static final int HISTORY_ITEM_VIEW = 1;
 
+
     public DashBoardAdapter(Context context, List<DataBaseSongModel> dataBaseSongModels) {
         this.dataBaseSongModels = dataBaseSongModels;
         this.context = context;
