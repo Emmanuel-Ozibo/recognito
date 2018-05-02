@@ -173,7 +173,10 @@ public class MainActivity extends AppCompatActivity implements
         List<String> avaliableMarkets = track.getAvailableMarkets();
         List<String> artistNames = getNames(track.getArtists());
         List<ImageModel>imageModelList = getImageModelList(track.getAlbum().getImages());
-        return new TrackModel(trackName, duration, popularity, imageModelList, avaliableMarkets, artistNames);
+        String spotifyUrl = track.getExternalUrls().get("spotify");
+        return new TrackModel(trackName, duration, popularity,
+                imageModelList, avaliableMarkets, artistNames,
+                spotifyUrl);
     }
 
     private List<String> getNames(List<SimpleArtist> artists){

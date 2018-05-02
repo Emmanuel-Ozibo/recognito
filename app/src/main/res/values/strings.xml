@@ -20,4 +20,5 @@
     <string name="recent_search">Recent Search</string>
     <string name="about">About</string>
     <string name="vibration_pref">vibration pref</string>
+    <string name="share_text">I just discovered this song using Recognito mobile App</string>
 </resources>

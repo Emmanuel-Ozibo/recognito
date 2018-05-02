@@ -22,7 +22,6 @@ import com.example.user.recognito.LastFmApiWapper.LastFmModels.Track.TrackModel;
 import com.example.user.recognito.R;
 import com.wrapper.spotify.models.Track;
 
-
 /**
  * Created by emmanuel on 12/25/2017.
  */
@@ -68,8 +67,13 @@ public class RecognisedActivity extends AppCompatActivity implements RecognisedF
     }
 
     @Override
-    public void onShareButtonClicked(){
-        //todo: implement this matter
+    public void onShareButtonClicked(String spotifyUrl){
+        String shareText = getResources().getString(R.string.share_text);
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Share song");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareText +":" +"\n" +spotifyUrl);
+        startActivity(Intent.createChooser(shareIntent, "Share song via"));
     }
 
     @Override

@@ -43,8 +43,7 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
     private OnRecognisedFragmentListener recognisedFragmentListener;
     private TextView musicTv;
     private ImageView musicPoster,largeMusicPoster;
-    private NestedScrollView nestedScrollView;
-    private static final int ANIMATION_TIME = 3000;
+    private String spotifyUrl;
     private TextView durationTv, artistTv;
 
 
@@ -82,7 +81,6 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
     private void setUpViewsAndListeners(View view){
         durationTv = view.findViewById(R.id.duration_tv1);
         artistTv = view.findViewById(R.id.artists_tv1);
-        nestedScrollView = view.findViewById(R.id.nested_scrollView);
         musicTv = view.findViewById(R.id.music_title);
         musicPoster = view.findViewById(R.id.poster);
         largeMusicPoster = view.findViewById(R.id.music_poster);
@@ -105,11 +103,13 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
         recognisedSong.setTimeStamp(timeStamp);
         presenter.insertSongIntoDb(recognisedSong);
         setUpImageViewsAndText(recognisedSong, view);
+
     }
 
     private void setUpImageViewsAndText(RecognisedSong recognisedSong, View view) {
         if (recognisedSong != null){
             TrackModel trackModel = recognisedSong.getTrackModel();
+            this.spotifyUrl = trackModel.getSpotifyUrl();
             musicTv.setText(trackModel.name);
             durationTv.setText(String.valueOf(getDurationStr(trackModel.getDuration())));
             artistTv.setText(getArtistsAsText(trackModel.getArtists()));
@@ -186,7 +186,7 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
     @Override
     public void onClick(View view){
         if (view.getId() == R.id.rec_fab){
-            recognisedFragmentListener.onShareButtonClicked();
+            recognisedFragmentListener.onShareButtonClicked(spotifyUrl);
         }else if (view.getId() == R.id.back_btn){
             recognisedFragmentListener.onBackButtonClicked();
         }else if (view.getId() == R.id.youtube_thumbnail_view){
@@ -204,7 +204,7 @@ public class RecognisedFragment extends Fragment implements RecognisedContract.R
     }
 
     public interface OnRecognisedFragmentListener{
-        void onShareButtonClicked();
+        void onShareButtonClicked(String spotifyUrl);
         void onBackButtonClicked();
         void onYouTubeThumbnailViewClicked();
         void onDashBoardClicked();

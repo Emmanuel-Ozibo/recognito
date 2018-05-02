@@ -19,18 +19,19 @@ public class TrackModel implements Parcelable{
     public List<ImageModel> imageModelList;
     public List<String> avaliableMarkets;
     public List<String>artists;
+    private String spotifyUrl;
 
     public TrackModel(String name, int duration, int popularity,
                       List<ImageModel> imageModelList, List<String> avaliableMarkets,
-                      List<String> artists){
+                      List<String> artists, String spotifyUrl){
         this.name = name;
         this.artists = artists;
         this.duration = duration;
         this.popularity = popularity;
         this.imageModelList = imageModelList;
         this.avaliableMarkets = avaliableMarkets;
+        this.spotifyUrl = spotifyUrl;
     }
-
 
     protected TrackModel(Parcel in) {
         name = in.readString();
@@ -39,6 +40,7 @@ public class TrackModel implements Parcelable{
         imageModelList = in.createTypedArrayList(ImageModel.CREATOR);
         avaliableMarkets = in.createStringArrayList();
         artists = in.createStringArrayList();
+        spotifyUrl = in.readString();
     }
 
     @Override
@@ -49,6 +51,7 @@ public class TrackModel implements Parcelable{
         dest.writeTypedList(imageModelList);
         dest.writeStringList(avaliableMarkets);
         dest.writeStringList(artists);
+        dest.writeString(spotifyUrl);
     }
 
     @Override
@@ -90,5 +93,9 @@ public class TrackModel implements Parcelable{
 
     public List<String> getArtists() {
         return artists;
+    }
+
+    public String getSpotifyUrl() {
+        return spotifyUrl;
     }
 }
