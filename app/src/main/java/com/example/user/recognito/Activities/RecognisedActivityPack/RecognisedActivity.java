@@ -39,7 +39,7 @@ public class RecognisedActivity extends AppCompatActivity implements RecognisedF
         //get the incoming intent
         Intent intent = getIntent();
         youTubeId = intent.getStringExtra("youtubeId");
-        TrackModel trackModel= intent.getParcelableExtra("trackmodel");
+        TrackModel trackModel = intent.getParcelableExtra("trackmodel");
 
         RecognisedSong recognisedSong = new RecognisedSong(trackModel, youTubeId);
         RecognisedFragment recognisedFragment = RecognisedFragment.newInstance(recognisedSong);
@@ -77,8 +77,13 @@ public class RecognisedActivity extends AppCompatActivity implements RecognisedF
     }
 
     @Override
-    public void onBackButtonClicked() {
+    public void onBackButtonClicked(){
         startActivity(new Intent(this, MainActivity.class));
+    }
+
+    @Override
+    public void onBackPressed() {
+        onBackButtonClicked();
     }
 
     @Override
@@ -88,7 +93,7 @@ public class RecognisedActivity extends AppCompatActivity implements RecognisedF
     }
 
     @Override
-    public void onDashBoardClicked() {
+    public void onDashBoardClicked(){
         startActivity(new Intent(this, DashBoardActivity.class));
     }
 }
